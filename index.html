@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="cs">
+  <head>
+    <meta charset="utf-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Opravidlo</title>
+    <link rel="icon" href="favicon.png" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/index.css" />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Varta&display=swap");
+    </style>
+    <script src="js/tinymce/tinymce.js"></script>
+    <script src="js/jquery/jquery.min.js"></script>
+    <script src="js/demo.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-md navbar-light bg-white rounded justify-content-between">
+      <div class="d-flex align-items-center">
+        <a class="navbar-brand active" href="index.html">
+          <img class="logo" src="/assets/icons/logo-new.png" alt="Opravidlo" />
+        </a>
+        <div data-toggle="modal" data-target="#helpModal">
+          <img
+            class="help"
+            data-toggle="tooltip"
+            data-placement="top"
+            title="Nápověda"
+            src="/assets/icons/help.png"
+            alt="Nápověda" />
+        </div>
+      </div>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarText"
+        aria-controls="navbarText"
+        aria-expanded="false"
+        aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarText">
+        <ul class="navbar-nav mobile-nav gap-1 ml-auto">
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              target="_blank"
+              href="https://docs.google.com/forms/d/e/1FAIpQLSeS_tobmpFIWwi0JCtKV7cs6HJAxZHjLY0BeMG0_Ay3y38eXg/viewform?usp=send_form"
+              >Hlášení chyb</a
+            >
+          </li>
+          <li class="nav-item drop-nav">
+            <a class="nav-link" href="o-korektoru.html">O projektu</a>
+            <ul class="dropdown">
+              <li class="nav-item">
+                <a class="nav-link" href="o-korektoru.html">O korektoru</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="co-korektor-umi.html">Co korektor umí</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="autori.html">Autoři</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="pouzite-nastroje.html">Použité nástroje</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="publikace.html">Publikace</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="podminky-pouziti.html">Podmínky použití</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <main class="container-fluid main-container main-container-with-editor">
+      <div class="row content-container">
+        <div class="col-12 col-md-7 editor-container">
+          <div id="mceControl">
+            <textarea class="tinymce"><p></p></textarea>
+          </div>
+          <div class="editor-buttons">
+            <button id="process" type="button" class="button to-disable editor-button button-green">Spustit korektor</button>
+            <button id="copy" type="button" class="button to-disable editor-button">Kopírovat</button>
+            <span class="delete-content-container"></span>
+            <a href="https://nlp.fi.muni.cz/cz_accent/" target="_blank">
+              <button id="copy" type="button" class="button to-disable editor-button">Oprava diakritiky</button></a
+            >
+            <button id="toggle-autocorrection" type="button" class="button to-disable editor-button">
+              Zobrazit automatické opravy
+            </button>
+          </div>
+          <!-- Modal -->
+          <div class="modal" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="Delete Modal" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="Delete Modal">Opravdu chcete vymazat celý obsah?</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-footer m-2 mt-4">
+                  <button id="delete-content" type="button" class="button button-red" data-dismiss="modal">Ano</button>
+                  <button type="button" class="button button-green" data-dismiss="modal">Ne</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal" id="helpModal" tabindex="-1" role="dialog" aria-labelledby="Help Modal" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="Help Modal">Nápověda</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body modal-details">
+                  <ul class="help-list">
+                    <li class="help-item">
+                      Pro spuštění Opravidla můžete použít tlačítko<br />
+                      <span class="green-text">spustit korektor</span> anebo klávesovou zkratku:
+                      <span class="green-text">shift</span> + <span class="green-text">alt</span><br />(na macu
+                      <span class="green-text">option</span>).
+                    </li>
+                    <li class="help-item">Když Opravidlo pracuje, nelze nijak editovat text.</li>
+
+                    <li class="help-item">
+                      Po úspěšné opravě a&nbsp;zobrazení návrhů v&nbsp;pravém sloupci doporučujeme využít možnosti
+                      <span class="green-text">zobrazit více</span>, dozvíte se další informace o&nbsp;chybě, případně získáte
+                      více návrhů pro samotnou opravu.
+                    </li>
+                    <li class="help-item">
+                      Pokud chvíli setrváte s&nbsp;kurzorem nad červenou chybou v&nbsp;editoru, zobrazí se vám daná chyba
+                      v&nbsp;pravém sloupci.
+                    </li>
+
+                    <li class="help-item">
+                      Opravidlo automaticky opravuje chyby typu nezlomitelné mezery po předložkách apod. Pokud se tak stane,
+                      můžete si tyto opravy zobrazit pomoci tlačítka
+                      <span class="green-text">automatické opravy</span> (pokud tyto opravy neexistují, tlačítko je skryto).
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="to-edit toast shadow p-3 mb-5 bg-white">
+            <div class="toast-body">Pro spuštění korektoru proveďte<br />nejdříve změnu obsahu v editoru.</div>
+          </div>
+        </div>
+        <div class="suggestions col-12 col-md-5"></div>
+        <div class="toggler">
+          <img
+            data-toggle="tooltip"
+            data-placement="top"
+            title="Skrýt seznam chyb"
+            src="assets/icons/collapse-right.svg"
+            alt="Right Arrow" />
+        </div>
+      </div>
+      <div class="mini-footer">
+        <span>Provozuje <a href="https://nlp.fi.muni.cz/" target="_blank">Centrum zpracování přirozeného jazyka</a></span>
+        <span
+          >© MU, ÚJČ AV ČR, UK,
+          <script>
+            document.write("2019&#8211;" + new Date().getFullYear());
+          </script></span
+        >
+        <span class="licence in-mini-footer" xmlns:cc="http://creativecommons.org/ns#">
+          This work is licensed under
+          <a
+            href="http://creativecommons.org/licenses/by-nc-nd/4.0/?ref=chooser-v1"
+            target="_blank"
+            rel="license noopener noreferrer"
+            style="display: inline-block"
+            >Attribution-NonCommercial-NoDerivatives 4.0 International<img
+              style="height: 22px !important; margin-left: 3px; vertical-align: text-bottom"
+              src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1" /><img
+              style="height: 22px !important; margin-left: 3px; vertical-align: text-bottom"
+              src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1" /><img
+              style="height: 22px !important; margin-left: 3px; vertical-align: text-bottom"
+              src="https://mirrors.creativecommons.org/presskit/icons/nc.svg?ref=chooser-v1" /><img
+              style="height: 22px !important; margin-left: 3px; vertical-align: text-bottom"
+              src="https://mirrors.creativecommons.org/presskit/icons/nd.svg?ref=chooser-v1"
+          /></a>
+        </span>
+      </div>
+    </main>
+  </body>
+</html>
